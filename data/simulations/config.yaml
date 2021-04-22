@@ -1,0 +1,23 @@
+# simulation parameters
+nsamples:
+  - 1
+  - 2
+  - 5
+
+nSNV:
+  - 3
+  - 5
+  - 8
+
+nCNA:
+  - 3
+  - 5
+  - 8
+
+threshold:
+  - 0.0
+  - 0.05
+  - 0.1
+  - 0.15
+
+nseeds: 10

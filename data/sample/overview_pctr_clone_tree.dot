@@ -1,0 +1,13 @@
+digraph N {
+	overlap="false"
+	rankdir="TB"
+	0 [label="g1, c1", style="bold"];
+	1 [label="g1, c3", style="bold"];
+	2 [label="g2, c1", style="bold"];
+	3 [label="g2, c2", style="bold"];
+	4 [label="g3, c1", style="bold"];
+	0 -> 1 [style="bold"];
+	0 -> 2 [style="bold"];
+	2 -> 3 [style="bold"];
+	2 -> 4 [style="bold"];
+}

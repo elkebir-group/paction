@@ -1,0 +1,62 @@
+#
+configfile: "config.yaml"
+
+seeds = [ i for i in range(config["nseeds"])]
+
+rule all:
+    input:
+        expand('ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_clone.out', seed=seeds, nsamples=config['nsamples'], nSNV=config['nSNV'], nCNA=config['nCNA'], threshold=config['threshold']),
+        expand('PCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_clone_prediction.out', seed=seeds, nsamples=config['nsamples'], nSNV=config['nSNV'], nCNA=config['nCNA'], threshold=config['threshold']),
+        expand('MCTPCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_clone_prediction.out', seed=seeds, nsamples=config['nsamples'], nSNV=config['nSNV'], nCNA=config['nCNA'], threshold=config['threshold']),
+
+rule simulate:
+    output:
+        clone_file="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_clone.out",
+        clone_tree="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_clone_tree.tsv",
+        snv_file="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_snv.csv",
+        snv_tree="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_snv_tree.csv",
+        snv_dag="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_snv_dag.csv",
+        cna_file="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_cna.csv",
+        cna_tree="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_cna_tree.csv",
+        cna_dag="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_cna_dag.csv",
+        snv_noisy="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_snv_noisy.csv",
+        cna_noisy="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_cna_noisy.csv",
+    log:
+        std = "ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.log",
+        err = "ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.err.log",
+    benchmark: "ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.benchmark",
+    shell:
+        "python ../../src/simulation.py -s {wildcards.seed} -o ground_truth/n{wildcards.nsamples}_m{wildcards.nSNV}_d{wildcards.nCNA}_s{wildcards.seed}_t{wildcards.threshold} "
+        " -n {wildcards.nsamples} -m {wildcards.nSNV} -d {wildcards.nCNA} -t {wildcards.threshold} "
+        " > {log.std} 2> {log.err}"
+
+rule PCR:
+    output:
+        clone_file="PCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_clone_prediction.out",
+    input:
+        snv_file="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_snv_noisy.csv",
+        cna_file="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_cna_noisy.csv",
+    log:
+        std = "PCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.log",
+        err = "PCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.err.log",
+    benchmark: "PCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.benchmark",
+    shell:
+        "python ../../src/paction.py --fsnv {input.snv_file} --fcna {input.cna_file} -o PCR/n{wildcards.nsamples}_m{wildcards.nSNV}_d{wildcards.nCNA}_s{wildcards.seed}_t{wildcards.threshold} "
+        " > {log.std} 2> {log.err}"
+
+rule MCTPCR:
+    output:
+        clone_file="MCTPCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_clone_prediction.out",
+    input:
+        snv_file="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_snv_noisy.csv",
+        cna_file="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_cna_noisy.csv",
+        snv_tree="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_snv_tree.csv",
+        cna_tree="ground_truth/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}_cna_tree.csv",
+    log:
+        std = "MCTPCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.log",
+        err = "MCTPCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.err.log",
+    benchmark: "MCTPCR/n{nsamples}_m{nSNV}_d{nCNA}_s{seed}_t{threshold}.benchmark",
+    shell:
+        "python ../../src/paction.py --fsnv {input.snv_file} --fcna {input.cna_file} --snv_tree {input.snv_tree} --cna_tree {input.cna_tree} "
+        " -o MCTPCR/n{wildcards.nsamples}_m{wildcards.nSNV}_d{wildcards.nCNA}_s{wildcards.seed}_t{wildcards.threshold} "
+        " > {log.std} 2> {log.err}"
