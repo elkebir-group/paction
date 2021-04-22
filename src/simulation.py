@@ -100,8 +100,6 @@ def main(args):
     df_snv.index.names = ['genotypes']
     df_cna.index.names = ['genotypes']
 
-    print(df_snv)
-
     # write SNV and CNA tree and dataframe
     df_snv.to_csv(f'{args.o}_snv.csv')
     df_cna.to_csv(f'{args.o}_cna.csv')
