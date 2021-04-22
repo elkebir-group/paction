@@ -125,19 +125,6 @@ def main(args):
     df_snv_noisy.to_csv(f'{args.o}_snv_noisy.csv')
     df_cna_noisy.to_csv(f'{args.o}_cna_noisy.csv')
 
-    # construct random SNV trees rooted at 0
-    for idx in range(args.r):
-        if idx == 0:
-            nx.write_edgelist(S, f'{args.o}_snv_tree_{idx}.csv', data=False, delimiter=',')
-            nx.write_edgelist(T, f'{args.o}_cna_tree_{idx}.csv', data=False, delimiter=',')
-        else:
-            G = nx.gn_graph(args.m, kernel=lambda x: 1)
-            G = G.reverse()
-            nx.write_edgelist(G, f'{args.o}_snv_tree_{idx}.csv', data=False, delimiter=',')
-            G = nx.gn_graph(args.d, kernel=lambda x: 1)
-            G = G.reverse()
-            nx.write_edgelist(G, f'{args.o}_cna_tree_{idx}.csv', data=False, delimiter=',')
-
 def str2bool(v):
     if isinstance(v, bool):
        return v
@@ -150,14 +137,12 @@ def str2bool(v):
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument('-n', type=int, help='number of samples', default = 1)
-    parser.add_argument('-m', type=int, help='number of SNV genotypes', default = 5)
-    parser.add_argument('-d', type=int, help='number of CNA genotypes', default = 4)
-    parser.add_argument('-g', '--gamma', type=int, help='number of clones [m + d - 1]')
+    parser.add_argument('-n', type=int, help='number of samples [1]', default = 1)
+    parser.add_argument('-m', type=int, help='number of SNV genotypes [5]', default = 5)
+    parser.add_argument('-d', type=int, help='number of CNA genotypes [4]', default = 4)
     parser.add_argument('-o', type=str, help='output prefix', default='sample')
-    parser.add_argument('-s', type=int, help='seed', default = 0)
+    parser.add_argument('-s', type=int, help='seed [0]', default = 0)
     parser.add_argument('-t', type=float, help='noise threshold [0.05]', default = 0.05)
-    parser.add_argument('-r', type=int, help='number of random trees [5]', default = 5)
     args = parser.parse_args(None if sys.argv[1:] else ['-h'])
 
     main(args)
