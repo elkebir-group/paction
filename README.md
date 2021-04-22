@@ -1,4 +1,4 @@
-# Paction
+# Paction (PArsimonious Clone Tree reconciliatION)
 
 ![Overview of Paction](paction_overview.png)
 A tumor is composed of multiple subpopulations of cells, or clones, with distinct somatic mutations, which can be measured using DNA sequencing.
