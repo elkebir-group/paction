@@ -14,6 +14,7 @@ Similarly, we infer clones Π2, proportions U2 and a clone tree T2 for the CNAs.
      * [I/O formats](#io)
      * [Paction](#jumper)
      * [simulation](#simulation)
+     * [cpp](#cpp)
 
 <a name="pre-requisites"></a>
 ## Pre-requisites
@@ -80,3 +81,8 @@ Filename | DESCRIPTION
 `data/sample/simulation_cna.csv` | CSV file with CNA proportions
 `data/sample/simulation_snv_tree.csv` | CSV file with SNV tree edges
 `data/sample/simulation_cna_tree.csv` | CSV file with CNA tree edges
+
+<a name="simulation"></a>
+### CPP
+We use SPRUCE to enumerate the solutions to the error-free version of the PCTR problem.
+The code with compilation and usage instructions are provided in [cpp](https://github.com/elkebir-group/paction/tree/main/src/cpp).
