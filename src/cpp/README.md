@@ -15,6 +15,14 @@
 
 ## Usage
 
+The executable is in the build directory. The syntax for usage is as follows.
+
 ```
 ./enumerate <CNA tree file> <CNA proportions file> <SNV tree file> <SNV proportions file> 0 <output prefix>
+```
+
+Example of using this code on the sample files is as follows.
+
+```
+./enumerate ../../../data/sample/overview_cna_tree.csv ../../../data/sample/overview_cna.csv ../../../data/sample/overview_snv_tree.csv ../../../data/sample/overview_snv.csv 0 ../../../data/sample/cpp
 ```
