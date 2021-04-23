@@ -106,12 +106,6 @@ def main(args):
     nx.write_edgelist(S, f'{args.o}_snv_tree.csv', data=False, delimiter=',')
     nx.write_edgelist(T, f'{args.o}_cna_tree.csv', data=False, delimiter=',')
 
-    # get the transitive closures of S and T and write those edges
-    S_dag = nx.transitive_closure_dag(S)
-    T_dag = nx.transitive_closure_dag(T)
-    nx.write_edgelist(S_dag, f'{args.o}_snv_dag.csv', data=False, delimiter=',')
-    nx.write_edgelist(T_dag, f'{args.o}_cna_dag.csv', data=False, delimiter=',')
-
     # construct noise for SNV
     noisy_values = (1 - args.t) * df_snv.values + args.t * np.random.dirichlet([1]*args.m, args.n).transpose()
     df_snv_noisy = pd.DataFrame(noisy_values, index=df_snv.index, columns=df_snv.columns)
