@@ -1,11 +1,11 @@
-# Paction (PArsimonious Clone Tree reconciliatION)
+# Paction (PArsimonious Clone Tree integrationION)
 
 ![Overview of Paction](paction_overview.png)
 A tumor is composed of multiple subpopulations of cells, or clones, with distinct somatic mutations, which can be measured using DNA sequencing.
 (a) Due to limitations in inference algorithms and/or sequencing technologies, we are limited to characterizing tumor clones in terms of either single-nucleotide variants (SNVs, stars) or copy-number aberrations (CNAs, triangles).
 That is, we infer clones Π1, proportions U1 and a clone tree T1 for the SNVs.
 Similarly, we infer clones Π2, proportions U2 and a clone tree T2 for the CNAs.
-(b) PACTION solves the Parsimonious Clone Tree Reconciliation problem of inferring clones Π ⊆ Π1 × Π2, a clone tree T and proportions U that characterize the clones of the tumor in terms of both SNVs and CNAs.
+(b) PACTION solves the Parsimonious Clone Tree Integration problem of inferring clones Π ⊆ Π1 × Π2, a clone tree T and proportions U that characterize the clones of the tumor in terms of both SNVs and CNAs.
 
 ## Contents
 
@@ -49,11 +49,11 @@ The input files for the SNV tree and the CNA tree are also CSV files. Each row g
       --cna_tree CNA_TREE  csv file containing the edges of CNA tree
       -o O                 output prefix
 
-An example of usage in PCR mode is
+An example of usage in PCI mode is
 
     $ python src/paction.py --fsnv data/sample/overview_snv.csv --fcna data/sample/overview_cna.csv -o data/sample/overview_pcr
     
-An example of usage in PCTR mode is
+An example of usage in PCTI mode is
 
     $ python src/paction.py --fsnv data/sample/overview_snv.csv --fcna data/sample/overview_cna.csv --snv_tree data/sample/overview_snv_tree.csv --cna_tree data/sample/overview_cna_tree.csv -o data/sample/overview_pctr
 
