@@ -7,6 +7,8 @@ That is, we infer clones Π1, proportions U1 and a clone tree T1 for the SNVs.
 Similarly, we infer clones Π2, proportions U2 and a clone tree T2 for the CNAs.
 (b) PACTION solves the Parsimonious Clone Tree Integration problem of inferring clones Π ⊆ Π1 × Π2, a clone tree T and proportions U that characterize the clones of the tumor in terms of both SNVs and CNAs.
 
+More details about the problem formulation and the algorithm can be found here: https://almob.biomedcentral.com/articles/10.1186/s13015-022-00209-9
+
 ## Contents
 
   1. [Pre-requisites](#pre-requisites)
